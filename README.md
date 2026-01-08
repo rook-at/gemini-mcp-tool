@@ -34,9 +34,8 @@ Before using this tool, ensure you have:
 2. **[Google Gemini CLI](https://github.com/google-gemini/gemini-cli)** installed and configured
 
 
-### Installation (Recommended)
+### One-Line Setup
 
-Add to Claude Code directly:
 ```bash
 claude mcp add gemini-cli -- npx -y github:rook-at/gemini-mcp-tool
 ```
@@ -68,7 +67,7 @@ claude mcp add-from-claude-desktop
 
 Register the MCP server with your MCP client:
 
-### For Claude Desktop
+### For NPX Usage (Recommended)
 
 Add this configuration to your Claude Desktop config file:
 
