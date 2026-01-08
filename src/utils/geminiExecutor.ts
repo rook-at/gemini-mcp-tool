@@ -17,7 +17,8 @@ export async function executeGeminiCLI(
   model?: string,
   sandbox?: boolean,
   changeMode?: boolean,
-  onProgress?: (newOutput: string) => void
+  onProgress?: (newOutput: string) => void,
+  cwd?: string
 ): Promise<string> {
   let prompt_processed = prompt;
 
@@ -87,7 +88,7 @@ ${prompt_processed}
     prompt_processed = changeModeInstructions;
   }
 
-  const args = [];
+  const args = ['-y']; // YOLO mode for non-interactive
   if (model) { args.push(CLI.FLAGS.MODEL, model); }
   if (sandbox) { args.push(CLI.FLAGS.SANDBOX); }
 
@@ -96,10 +97,10 @@ ${prompt_processed}
     ? `"${prompt_processed}"`
     : prompt_processed;
 
-  args.push(CLI.FLAGS.PROMPT, finalPrompt);
+  args.push(finalPrompt);
 
   try {
-    return await executeCommand(CLI.COMMANDS.GEMINI, args, onProgress);
+    return await executeCommand(CLI.COMMANDS.GEMINI, args, onProgress, cwd);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     if (errorMessage.includes(ERROR_MESSAGES.QUOTA_EXCEEDED)) {
@@ -117,7 +118,7 @@ ${prompt_processed}
 
       Logger.warn(`${ERROR_MESSAGES.QUOTA_EXCEEDED}. Falling back to ${fallbackModel}.`);
       await sendStatusMessage(STATUS_MESSAGES.FLASH_RETRY);
-      const fallbackArgs = [];
+      const fallbackArgs = ['-y']; // YOLO mode
       fallbackArgs.push(CLI.FLAGS.MODEL, fallbackModel);
       if (sandbox) {
         fallbackArgs.push(CLI.FLAGS.SANDBOX);
@@ -128,9 +129,9 @@ ${prompt_processed}
         ? `"${prompt_processed}"`
         : prompt_processed;
 
-      fallbackArgs.push(CLI.FLAGS.PROMPT, fallbackPrompt);
+      fallbackArgs.push(fallbackPrompt);
       try {
-        const result = await executeCommand(CLI.COMMANDS.GEMINI, fallbackArgs, onProgress);
+        const result = await executeCommand(CLI.COMMANDS.GEMINI, fallbackArgs, onProgress, cwd);
         Logger.warn(`Successfully executed with ${fallbackModel} fallback.`);
         await sendStatusMessage(STATUS_MESSAGES.FLASH_SUCCESS);
         return result;
