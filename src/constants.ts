@@ -28,8 +28,6 @@ export const STATUS_MESSAGES = {
 export const MODELS = {
   PRO: "gemini-2.5-pro",
   FLASH: "gemini-2.5-flash",
-  GEMINI_3_PRO: "gemini-3-pro-preview",
-  GEMINI_3_FLASH: "gemini-3-flash-preview",
 } as const;
 
 // MCP Protocol Constants
@@ -91,7 +89,7 @@ export interface ToolArguments {
   chunkIndex?: number | string; // Which chunk to return (1-based)
   chunkCacheKey?: string; // Optional cache key for continuation
   message?: string; // For Ping tool -- Un-used.
-
+  
   // --> new tool
   methodology?: string; // Brainstorming framework to use
   domain?: string; // Domain context for specialized brainstorming
@@ -99,6 +97,6 @@ export interface ToolArguments {
   existingContext?: string; // Background information to build upon
   ideaCount?: number; // Target number of ideas to generate
   includeAnalysis?: boolean; // Include feasibility and impact analysis
-
+  
   [key: string]: string | boolean | number | undefined; // Allow additional properties
 }

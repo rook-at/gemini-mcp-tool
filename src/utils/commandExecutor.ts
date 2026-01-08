@@ -4,8 +4,7 @@ import { Logger } from "./logger.js";
 export async function executeCommand(
   command: string,
   args: string[],
-  onProgress?: (newOutput: string) => void,
-  cwd?: string
+  onProgress?: (newOutput: string) => void
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     const startTime = Date.now();
@@ -15,17 +14,16 @@ export async function executeCommand(
       env: process.env,
       shell: false,
       stdio: ["ignore", "pipe", "pipe"],
-      cwd: cwd,
     });
 
     let stdout = "";
     let stderr = "";
     let isResolved = false;
     let lastReportedLength = 0;
-
+    
     childProcess.stdout.on("data", (data) => {
       stdout += data.toString();
-
+      
       // Report new content if callback provided
       if (onProgress && stdout.length > lastReportedLength) {
         const newContent = stdout.substring(lastReportedLength);

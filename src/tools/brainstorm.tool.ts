@@ -13,10 +13,10 @@ function buildBrainstormPrompt(config: {
   includeAnalysis: boolean;
 }): string {
   const { prompt, methodology, domain, constraints, existingContext, ideaCount, includeAnalysis } = config;
-
+  
   // Select methodology framework
   let frameworkInstructions = getMethodologyInstructions(methodology, domain);
-
+  
   let enhancedPrompt = `# BRAINSTORMING SESSION
 
 ## Core Challenge
@@ -134,11 +134,6 @@ export const brainstormTool: UnifiedTool = {
     description: "Generate structured brainstorming prompt with methodology-driven ideation, domain context integration, and analytical evaluation framework",
   },
   category: 'gemini',
-  annotations: {
-    title: "Brainstorm",
-    readOnlyHint: true,
-    openWorldHint: true,
-  },
   execute: async (args, onProgress) => {
     const {
       prompt,
@@ -166,10 +161,10 @@ export const brainstormTool: UnifiedTool = {
     });
 
     Logger.debug(`Brainstorm: Using methodology '${methodology}' for domain '${domain || 'general'}'`);
-
+    
     // Report progress to user
     onProgress?.(`Generating ${ideaCount} ideas via ${methodology} methodology...`);
-
+    
     // Execute with Gemini
     return await executeGeminiCLI(enhancedPrompt, model as string | undefined, false, false, onProgress);
   }
