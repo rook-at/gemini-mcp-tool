@@ -37,7 +37,7 @@ Before using this tool, ensure you have:
 ### One-Line Setup
 
 ```bash
-claude mcp add gemini-cli -- npx -y gemini-mcp-tool
+claude mcp add gemini-cli -- npx -y github:rook-at/gemini-mcp-tool
 ```
 
 ### Verify Installation
@@ -54,7 +54,7 @@ If you already have it configured in Claude Desktop:
 ```json
 "gemini-cli": {
   "command": "npx",
-  "args": ["-y", "gemini-mcp-tool"]
+  "args": ["-y", "github:rook-at/gemini-mcp-tool"]
 }
 ```
 
@@ -76,7 +76,7 @@ Add this configuration to your Claude Desktop config file:
   "mcpServers": {
     "gemini-cli": {
       "command": "npx",
-      "args": ["-y", "gemini-mcp-tool"]
+      "args": ["-y", "github:rook-at/gemini-mcp-tool"]
     }
   }
 }
